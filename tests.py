@@ -51,7 +51,7 @@ def test_file_types(client):
     assert 'application/vnd.openxmlformats' in rv.mimetype
 
     rv = client.get('/remote/flask.png')
-    assert 'image/x-png' in rv.mimetype
+    assert 'image/x-png' in rv.mimetype or 'image/png' in rv.mimetype
 
 
 def test_two_blueprints(client):
@@ -60,10 +60,10 @@ def test_two_blueprints(client):
     assert rv.data == open('fixtures/subfolder/test_txt.txt', 'rb').read()
 
     rv = client.get('/remote_sub/requests.png')
-    assert 'image/x-png' in rv.mimetype
+    assert 'image/x-png' in rv.mimetype or 'image/png' in rv.mimetype
 
     rv = client.get('/remote/subfolder/requests.png')
-    assert 'image/x-png' in rv.mimetype
+    assert 'image/x-png' in rv.mimetype or 'image/png' in rv.mimetype
 
     rv = client.get('/remote/non_exist.txt')
     assert rv.status_code == 404
