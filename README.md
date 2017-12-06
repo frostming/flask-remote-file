@@ -2,6 +2,10 @@
 
 *Flask extension to serve remote files via sftp*
 
+## Why we need this
+
+Sometimes we want to access remote files via SFTP but the SFTP server is not exposed to current client or we want to limit the accessible scope. **flask_remote_file** will help setup a flask app to forward the request to SFTP server and prevent any illegal access.
+
 ## Installation:
 ```bash
 $ pip install flask-remote-file

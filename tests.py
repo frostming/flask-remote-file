@@ -62,5 +62,16 @@ def test_two_blueprints(client):
     rv = client.get('/remote_sub/requests.png')
     assert 'image/x-png' in rv.mimetype
 
+    rv = client.get('/remote/subfolder/requests.png')
+    assert 'image/x-png' in rv.mimetype
+
     rv = client.get('/remote/non_exist.txt')
+    assert rv.status_code == 404
+
+
+def test_secure_path(client):
+    rv = client.get('/remote/subfolder/../test_txt.txt')
+    assert rv.status_code == 200
+
+    rv = client.get('/remote/subfolder/../../README.md')
     assert rv.status_code == 404
