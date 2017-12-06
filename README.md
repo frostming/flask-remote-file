@@ -1,4 +1,5 @@
 # Flask Remote File
+[![Build Status](https://travis-ci.org/frostming/flask-remote-file.svg?branch=master)](https://travis-ci.org/frostming/flask-remote-file)
 
 *Flask extension to serve remote files via sftp*
 
