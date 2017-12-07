@@ -10,6 +10,7 @@ setup(
     author='Frost Ming',
     author_email='mianghong@gmail.com',
     install_requires=['paramiko', 'flask'],
+    include_package_data=True,
     license='MIT',
     classifiers=[
         'Development Status:: 3 - Alpha',
