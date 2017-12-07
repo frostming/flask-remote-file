@@ -8,7 +8,7 @@
     :license: MIT
 """
 import os.path as op
-from io import BytesIO
+from io import StringIO
 
 import paramiko
 from flask import Blueprint, g, request, send_file
@@ -70,7 +70,7 @@ class RemoteFile(Blueprint):
         if full_path[:len(self.fileroot)] != self.fileroot:
             raise NotFound()
         try:
-            fp = BytesIO(g.get('sftp_%s' % self.name).open(full_path).read())
+            fp = StringIO(g.get('sftp_%s' % self.name).open(full_path).read())
         except IOError:
             raise NotFound()
         as_attachment = request.args.get('attachment') == '1'
