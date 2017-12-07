@@ -8,10 +8,11 @@
     :license: MIT
 """
 import os.path as op
+from io import BytesIO
+
 import paramiko
 from flask import Blueprint, g, request, send_file
 from werkzeug.exceptions import NotFound
-import logging
 
 
 class RemoteFile(Blueprint):
@@ -60,17 +61,16 @@ class RemoteFile(Blueprint):
             g.setdefault('sftp_%s' % self.name, ssh_client.open_sftp())
 
     def close_sftp(self, exc=None):
-        ssh_client = g.pop('ssh_%s' % self.name, None)
-        if ssh_client is not None:
-            ssh_client.close()
-        g.pop('sftp_%s' % self.name, None)
+        sftp = g.pop('sftp_%s' % self.name, None)
+        if sftp is not None:
+            sftp.sock.close()
 
     def get_file(self, filepath):
         full_path = op.abspath(op.join(self.fileroot, filepath))
         if full_path[:len(self.fileroot)] != self.fileroot:
             raise NotFound()
         try:
-            fp = g.get('sftp_%s' % self.name).open(full_path)
+            fp = BytesIO(g.get('sftp_%s' % self.name).open(full_path).read())
         except IOError:
             raise NotFound()
         as_attachment = request.args.get('attachment') == '1'
